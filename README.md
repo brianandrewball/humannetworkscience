@@ -1,4 +1,6 @@
 ---
+![...](HMN_logo.jpg)
+
 # Human Network Science Project
 ---
 
