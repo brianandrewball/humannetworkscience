@@ -1,6 +1,6 @@
 
 # Human Network Science Project
-![Alt](HMN_logo.jpg "Project on philosophical approaches to belief spreading on social networks in a Futurism style")
+![Alt](HMN_logo.jpg "Image produced by Dall-e using the prompt -Project on philosophical approaches to belief spreading on social networks in a Futurism style- ")
 
 This project brings humanities and social science researchers together with network scientists to build bridges between qualitative and quantitative research methods across disciplinary divides. 
 
