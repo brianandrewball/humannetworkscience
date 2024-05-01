@@ -5,7 +5,7 @@ Created on Tue Apr 30 16:53:15 2024
 
 Python script to retrieve data from a specified URL or locally stored, 
 read the data into pandas DataFrames, creates a network graph using NetworkX, 
-and then saves the graph data as a GraphML file.
+and then saves the graph data as a GraphML, GML or GEXF file.
 
 @author: molly
 """
