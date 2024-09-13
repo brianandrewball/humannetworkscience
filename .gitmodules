@@ -1,0 +1,3 @@
+[submodule "polygraphs"]
+	path = polygraphs
+	url = https://github.com/alexandroskoliousis/polygraphs.git
