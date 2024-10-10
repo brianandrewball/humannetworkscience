@@ -20,7 +20,6 @@ and then saves the graph data as a GraphML, GML or GEXF file.
 
 from collections import defaultdict
 import shutil
-import numpy as np
 import sys
 import requests
 import pandas as pd
@@ -28,8 +27,8 @@ import networkx as nx
 import urllib.request
 import os
 import csv 
-import datetime 
 import matplotlib.pyplot as plt
+from datetime import datetime
 
 
 _DATACACHE = "~/polygraphs-cache/data"
@@ -149,7 +148,7 @@ def normalize_graph(graph):
 
     # Normalize node identifiers (from 0 to N) using default dict
     tbl = defaultdict(lambda: len(tbl))
-    normalized_node_edges = [(tbl[edge[0]], tbl[edge[1]]) for edge in graph.edges()]
+    #normalized_node_edges = [(tbl[edge[0]], tbl[edge[1]]) for edge in graph.edges()]
 
     # Relabel nodes using lookup table
     normalized_graph = nx.relabel_nodes(graph, tbl)
@@ -211,37 +210,48 @@ def save_graph(graph, format_choice, destination_folder, filename):
     else:
         print("Invalid file format. Please choose either GML, GraphML, or GEXF.")
 
-def print_graph_details(graph, num_nodes=20, num_edges=20, output_file="subgraph.png"):
+def print_graph_details(graph, num_edges=20, output_file="subgraph.png"):
     """
     Print details of a subset of nodes and edges and save the subgraph as an image.
     """
-    print("\nGraph Details:")
-    print(f"Number of nodes: {len(graph.nodes())}")
-    print(f"Number of edges: {len(graph.edges())}")
+    # print("\nGraph Details:")
+    # print(f"Number of nodes: {len(graph.nodes())}")
+    # print(f"Number of edges: {len(graph.edges())}")
 
-    print("\nSample nodes:")
-    subset_nodes = []
-    for i, node in enumerate(graph.nodes(data=True)):
-        if i >= num_nodes:
-            break
-        print(node)
-        subset_nodes.append(node[0])  # Add node to subset
+    # Sample the first `num_edges` edges (with attributes)
+    subset_edges = list(graph.edges(data=True))[:num_edges]  # Get the first num_edges with data
 
-    print("\nSample edges:")
-    subset_edges = []
-    for i, edge in enumerate(graph.edges(data=True)):
-        if i >= num_edges:
-            break
-        print(edge)
-        subset_edges.append((edge[0], edge[1]))  # Add edge to subset
+    # Collect unique nodes from the selected edges
+    subset_nodes = set()
+    for edge in subset_edges:
+        subset_nodes.update(edge[:2])
+
+    #print("\nSample nodes:")
+     #for node in subset_nodes:
+        #print(node)
+
+     #print("\nSample edges:")
+     #for edge in subset_edges:
+         #print(edge)
 
     # Create a subgraph
-    subgraph = graph.edge_subgraph(subset_edges).copy()
+    subgraph = graph.edge_subgraph([e[:2] for e in subset_edges]).copy() 
 
     # Draw the subgraph using spring layout
     plt.figure(figsize=(12, 12))  # Set larger figure size
     pos = nx.spring_layout(subgraph)  # Use spring layout
     nx.draw(subgraph, pos, with_labels=True, node_color='skyblue', node_size=2000, edge_color='gray', font_size=15, font_weight='bold')
+
+   # Add labels for the edges with timestamps
+    for edge in subset_edges:
+        if 'timestamp' in edge[2]:  # Ensure there's a timestamp attribute
+            # Convert Unix timestamp to human-readable format
+            timestamp = datetime.fromtimestamp(edge[2]['timestamp']).strftime('%Y-%m-%d')
+            # Get the position for the edge to place the label
+            x = (pos[edge[0]][0] + pos[edge[1]][0]) / 2
+            y = (pos[edge[0]][1] + pos[edge[1]][1]) / 2
+            plt.text(x, y + 0.1, timestamp, fontsize=10, color='black', bbox=dict(facecolor='white', alpha=0.5))
+
 
     # Save the subgraph as an image
     plt.savefig(output_file)
@@ -252,6 +262,7 @@ def extract_dataset_name(filepath):
     Extracts the dataset name from the file path.
     """
     return os.path.splitext(os.path.basename(filepath))[0]
+
 
 
 #Examples (use base, source and dest as inputs)
@@ -381,24 +392,33 @@ if __name__ == "__main__":
     if timestamps is not None:
         print("Timestamps:", timestamps.head())  # Print timestamps if present
 
-    # Determine if the graph is temporal or static
+    # Determine if the graph is temporal or static, save it and normalize it 
     try:
         if timestamps is not None:  # Check if timestamps were successfully extracted
             graph = create_temporal_graph(source, destination, timestamps)
         else:
             graph = create_graph(source, destination)
-
-        print("Graph created successfully.")
-        print_graph_details(graph, num_nodes=50, num_edges=50, output_file=f"{dataset_name}_subgraph.png")  # Print details of the graph
-
-        # Save the non-normalized graph
+        
         save_graph(graph, "GML", destination_folder, f"{dataset_name}_graph")
 
         # Normalize the graph for both static and temporal cases
         normalized_graph = normalize_graph(graph)
         print("Graph normalized successfully.")
-        print_graph_details(normalized_graph, num_nodes=50, num_edges=50, output_file=f"{dataset_name}_subgraph_normalized.png")
         save_graph(normalized_graph, "GML", destination_folder, f"{dataset_name}_graph_normalized")
+            
+    except Exception as e:
+          print("Error:", e)
+          sys.exit(1)     
+
+   # Create image of graph 
+    try: 
+    
+        print_graph_details(graph, num_nodes=50, num_edges=50, output_file=f"{dataset_name}_subgraph.png")  # Print details of the graph
+
+        # Save the non-normalized graph
+        
+        print_graph_details(normalized_graph, num_nodes=50, num_edges=50, output_file=f"{dataset_name}_subgraph_normalized.png")
+       
 
     except Exception as e:
         print("Error:", e)
