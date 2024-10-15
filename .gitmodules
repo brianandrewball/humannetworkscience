@@ -1,4 +1,4 @@
 
 [submodule "path/to/submodule"]
-	path = polygraphs_updated
+	path = polygraphs_updated/to
 	url = https://github.com/Mar1aFede/polygraphs_updated.git
