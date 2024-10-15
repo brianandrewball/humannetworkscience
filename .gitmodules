@@ -1,9 +1,1 @@
-[submodule "polygraphs"]
-	path = polygraphs
-	url = https://github.com/alexandroskoliousis/polygraphs.git
-[submodule "updated_polygraphs"]
-	path = updated_polygraphs
-	url = ./updated_polygraphs
-[submodule "path/to/submodule"]
-	path = polygraphs_updated/to/submodule
-	url = https://github.com/Mar1aFede/polygraphs_updated.git
+
