@@ -1,0 +1,1296 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4. Temporal Networks &#8212; Polygraphs Bootcamp</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/HNS4-Temporal-Networks/HNS4-Temporal-Networks';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="5. Adaptive networks" href="../HNS5-Adaptive-Networks/HNS5-Adaptive-Networks.html" />
+    <link rel="prev" title="3. Introduction to basic models" href="../HNS3-Network-Dynamics/HNS3-Network-Dynamics.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/HMN_logo.jpg" class="logo__image only-light" alt="Polygraphs Bootcamp - Home"/>
+    <img src="../../_static/HMN_logo.jpg" class="logo__image only-dark pst-js-only" alt="Polygraphs Bootcamp - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Northeastern University London - Polygraphs Program
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../HNS1-Intro-to-Python/HNS1-Intro-to-Python.html">1. Python is easy :)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../HNS2-Intro-to-Networks/HNS2-Intro-to-Networks.html">2. Introduction to Networks</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Dynamics</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../HNS3-Network-Dynamics/HNS3-Network-Dynamics.html">3. Introduction to basic models</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Temporal Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../HNS5-Adaptive-Networks/HNS5-Adaptive-Networks.html">5. Adaptive networks</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../HNS6-Data-Analysis-Real-Polygraphs-Data/HNS6-Data-Analysis-Real-Polygraphs-Data.html">6. Data Analysis with Real Polygraphs Data</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/brianandrewball/humannetworkscience/jupyter-book?urlpath=tree/notebooks/HNS4-Temporal-Networks/HNS4-Temporal-Networks.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/brianandrewball/humannetworkscience" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/brianandrewball/humannetworkscience/issues/new?title=Issue%20on%20page%20%2Fnotebooks/HNS4-Temporal-Networks/HNS4-Temporal-Networks.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/HNS4-Temporal-Networks/HNS4-Temporal-Networks.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Temporal Networks</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">4.1. Introduction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-temporal-networks">4.1.1. What are temporal networks?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statics-vs-temporal">4.1.2. Statics vs Temporal</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#timestamps">4.1.3. Timestamps</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-simulations-with-polygraphs">4.2. Running Simulations with Polygraphs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dataset">4.2.1. The Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-datasets-to-temporal-graphs">4.2.2. From Datasets to (Temporal) Graphs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-the-simulations">4.2.3. Run the Simulations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results-analysis">4.2.4. Results Analysis</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="temporal-networks">
+<h1><span class="section-number">4. </span>Temporal Networks<a class="headerlink" href="#temporal-networks" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2><span class="section-number">4.1. </span>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<section id="what-are-temporal-networks">
+<h3><span class="section-number">4.1.1. </span>What are temporal networks?<a class="headerlink" href="#what-are-temporal-networks" title="Link to this heading">#</a></h3>
+<p><span style="font-size: 16px;"> Simply speaking, temporal networks are networks that vary over time. This means that, unlike static networks, the connections (or <em>edges</em>) between the nodes are not fixed but evolve dynamically, allowing edges to appear, disappear, and reappear over time.  The use of temporal networks offers a more nuanced understanding of complex systems, allowing to see how these systems develop, change, and evolve over time. This approach is advantageous across various fields and can enhance our understanding of many real-world phenomena - from the transmission of infectious behaviors to the dynamics of beliefs spread within social networks.</p>
+</section>
+<section id="statics-vs-temporal">
+<h3><span class="section-number">4.1.2. </span>Statics vs Temporal<a class="headerlink" href="#statics-vs-temporal" title="Link to this heading">#</a></h3>
+<p><span style="font-size: 16px;"> Let’s compare, for instance, two different networks created from the same dataset:</p>
+<img src="pic1.png" alt="Alt Text" width="800"/>
+<p style="text-align: center;"> The left figure illustrates a static network representing who is friends with who. Each person is a circled node, and and the edges connecting them indicate friendships.  The right figure shows a temporal network showing the progression o who met who and when. For instance, we known from the static network that everyone has met everyone except Dylan (orange) and Casey (light green) but we have no clue about the time-point of these meetings, which are instead captured by the temporal network. (e.g. that Ashley and Blake met at event 1 and at event 3, Blake met Dylan). </p> 
+<p>Source: <a class="reference external" href="https://teneto.readthedocs.io/en/latest/what_is_tnt.html">https://teneto.readthedocs.io/en/latest/what_is_tnt.html</a></p>
+</section>
+<section id="timestamps">
+<h3><span class="section-number">4.1.3. </span>Timestamps<a class="headerlink" href="#timestamps" title="Link to this heading">#</a></h3>
+<p><span style="font-size: 16px;"> The key caractheristic of a temporal network is the temporal dimension, which is represented by including a timestamp in the edges. Binary edges are typically expressed as 3-tuples (source, destination, timestamp) and weighted edges as 4 tuples (source, destination, timestamp, weight). While timestamps are always arranged in an ordered sequence, there are various ways of measuring and tracking temporality. The chosen approach will ultimately depends on many factors, such as the nature of the interactions being analyzed, the purpose of the reaserchers, and the study requirement.</p>
+<p><span style="font-size: 16px;"> Today, we will see how to run simulation in Polygraphs on temporal networks, where time is measured by either one of two units - <em>months</em> and <em>weeks</em> - and is specified as Unix timestamp.*</p>
+<p>*The Unix timestamps represent the number of seconds that have passed since January 1, 1970 (known as the Unix epoch) and is a common metrics for date and time representation in computer science.</p>
+</section>
+</section>
+<section id="running-simulations-with-polygraphs">
+<h2><span class="section-number">4.2. </span>Running Simulations with Polygraphs<a class="headerlink" href="#running-simulations-with-polygraphs" title="Link to this heading">#</a></h2>
+<p><span style="font-size: 16px;">  In the previous sessions, you learned how to run simulations in Polygraphs using configuration files for both existing and custom graphs. While the Internet provides a wealth of graphs suitable for research, there may be instances where you only have datasets available or where you plan to collect new data for your simulations.</p>
+<p><span style="font-size: 16px;">  In this session, we will first explore how to create a graph from an existing dataset and then demonstrate how to run Polygraphs on it.</p>
+<section id="the-dataset">
+<h3><span class="section-number">4.2.1. </span>The Dataset<a class="headerlink" href="#the-dataset" title="Link to this heading">#</a></h3>
+<p><span style="font-size: 16px;"> We will create graphs from the dataset ‘CollegeMsg’ available from the SNAP repository: <a class="reference external" href="http://snap.stanford.edu/data/index.html">http://snap.stanford.edu/data/index.html</a></p>
+<p>You can download it from this link: <a class="reference external" href="https://snap.stanford.edu/data/CollegeMsg.html">https://snap.stanford.edu/data/CollegeMsg.html</a></p>
+<p><span style="font-size: 16px;"> The dataset consists of private messages sent on an online social network at the University of California, Irvine during a time span of 193 days.</p>
+</section>
+<section id="from-datasets-to-temporal-graphs">
+<h3><span class="section-number">4.2.2. </span>From Datasets to (Temporal) Graphs<a class="headerlink" href="#from-datasets-to-temporal-graphs" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#import libraries </span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">h5py</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#set up</span>
+<span class="n">_DATACACHE</span> <span class="o">=</span> <span class="s2">&quot;~/polygraphs-cache/data&quot;</span>
+<span class="o">!</span>pip<span class="w"> </span>uninstall<span class="w"> </span>-y<span class="w"> </span>polygraphs_updated
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/Mar1aFede/polygraphs_updated.git
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found existing installation: polygraphs_updated 0.0.21a0
+Uninstalling polygraphs_updated-0.0.21a0:
+  Successfully uninstalled polygraphs_updated-0.0.21a0
+Collecting git+https://github.com/Mar1aFede/polygraphs_updated.git
+  Cloning https://github.com/Mar1aFede/polygraphs_updated.git to /private/var/folders/wq/04nwpt7x14z8gbgnd282snh80000gp/T/pip-req-build-49oxtks8
+  Running command git clone --filter=blob:none --quiet https://github.com/Mar1aFede/polygraphs_updated.git /private/var/folders/wq/04nwpt7x14z8gbgnd282snh80000gp/T/pip-req-build-49oxtks8
+  Resolved https://github.com/Mar1aFede/polygraphs_updated.git to commit ac3c353b584899031c2099337078c6f87899d4dc
+  Installing build dependencies ... ?25ldone
+?25h  Getting requirements to build wheel ... ?25ldone
+?25h  Preparing metadata (pyproject.toml) ... ?25ldone
+?25hRequirement already satisfied: PyYaml in ./anaconda3/lib/python3.11/site-packages (from polygraphs_updated==0.0.21a0) (6.0.1)
+Requirement already satisfied: pandas in ./anaconda3/lib/python3.11/site-packages (from polygraphs_updated==0.0.21a0) (2.2.2)
+Requirement already satisfied: numpy in ./anaconda3/lib/python3.11/site-packages (from polygraphs_updated==0.0.21a0) (1.26.4)
+Requirement already satisfied: h5py in ./anaconda3/lib/python3.11/site-packages (from polygraphs_updated==0.0.21a0) (3.11.0)
+Requirement already satisfied: matplotlib in ./anaconda3/lib/python3.11/site-packages (from polygraphs_updated==0.0.21a0) (3.9.2)
+Requirement already satisfied: networkx in ./anaconda3/lib/python3.11/site-packages (from polygraphs_updated==0.0.21a0) (3.3)
+Requirement already satisfied: six in ./anaconda3/lib/python3.11/site-packages (from polygraphs_updated==0.0.21a0) (1.16.0)
+Requirement already satisfied: torch in ./anaconda3/lib/python3.11/site-packages (from polygraphs_updated==0.0.21a0) (2.2.2)
+Requirement already satisfied: dgl in ./anaconda3/lib/python3.11/site-packages (from polygraphs_updated==0.0.21a0) (1.1.2)
+Requirement already satisfied: scipy&gt;=1.1.0 in ./anaconda3/lib/python3.11/site-packages (from dgl-&gt;polygraphs_updated==0.0.21a0) (1.13.1)
+Requirement already satisfied: requests&gt;=2.19.0 in ./anaconda3/lib/python3.11/site-packages (from dgl-&gt;polygraphs_updated==0.0.21a0) (2.32.3)
+Requirement already satisfied: tqdm in ./anaconda3/lib/python3.11/site-packages (from dgl-&gt;polygraphs_updated==0.0.21a0) (4.66.5)
+Requirement already satisfied: psutil&gt;=5.8.0 in ./anaconda3/lib/python3.11/site-packages (from dgl-&gt;polygraphs_updated==0.0.21a0) (5.9.0)
+Requirement already satisfied: contourpy&gt;=1.0.1 in ./anaconda3/lib/python3.11/site-packages (from matplotlib-&gt;polygraphs_updated==0.0.21a0) (1.2.0)
+Requirement already satisfied: cycler&gt;=0.10 in ./anaconda3/lib/python3.11/site-packages (from matplotlib-&gt;polygraphs_updated==0.0.21a0) (0.11.0)
+Requirement already satisfied: fonttools&gt;=4.22.0 in ./anaconda3/lib/python3.11/site-packages (from matplotlib-&gt;polygraphs_updated==0.0.21a0) (4.51.0)
+Requirement already satisfied: kiwisolver&gt;=1.3.1 in ./anaconda3/lib/python3.11/site-packages (from matplotlib-&gt;polygraphs_updated==0.0.21a0) (1.4.4)
+Requirement already satisfied: packaging&gt;=20.0 in ./anaconda3/lib/python3.11/site-packages (from matplotlib-&gt;polygraphs_updated==0.0.21a0) (24.1)
+Requirement already satisfied: pillow&gt;=8 in ./anaconda3/lib/python3.11/site-packages (from matplotlib-&gt;polygraphs_updated==0.0.21a0) (10.4.0)
+Requirement already satisfied: pyparsing&gt;=2.3.1 in ./anaconda3/lib/python3.11/site-packages (from matplotlib-&gt;polygraphs_updated==0.0.21a0) (3.1.2)
+Requirement already satisfied: python-dateutil&gt;=2.7 in ./anaconda3/lib/python3.11/site-packages (from matplotlib-&gt;polygraphs_updated==0.0.21a0) (2.9.0.post0)
+Requirement already satisfied: pytz&gt;=2020.1 in ./anaconda3/lib/python3.11/site-packages (from pandas-&gt;polygraphs_updated==0.0.21a0) (2024.1)
+Requirement already satisfied: tzdata&gt;=2022.7 in ./anaconda3/lib/python3.11/site-packages (from pandas-&gt;polygraphs_updated==0.0.21a0) (2023.3)
+Requirement already satisfied: filelock in ./anaconda3/lib/python3.11/site-packages (from torch-&gt;polygraphs_updated==0.0.21a0) (3.13.1)
+Requirement already satisfied: typing-extensions&gt;=4.8.0 in ./anaconda3/lib/python3.11/site-packages (from torch-&gt;polygraphs_updated==0.0.21a0) (4.11.0)
+Requirement already satisfied: sympy in ./anaconda3/lib/python3.11/site-packages (from torch-&gt;polygraphs_updated==0.0.21a0) (1.13.2)
+Requirement already satisfied: jinja2 in ./anaconda3/lib/python3.11/site-packages (from torch-&gt;polygraphs_updated==0.0.21a0) (3.1.4)
+Requirement already satisfied: fsspec in ./anaconda3/lib/python3.11/site-packages (from torch-&gt;polygraphs_updated==0.0.21a0) (2024.3.1)
+Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in ./anaconda3/lib/python3.11/site-packages (from requests&gt;=2.19.0-&gt;dgl-&gt;polygraphs_updated==0.0.21a0) (3.3.2)
+Requirement already satisfied: idna&lt;4,&gt;=2.5 in ./anaconda3/lib/python3.11/site-packages (from requests&gt;=2.19.0-&gt;dgl-&gt;polygraphs_updated==0.0.21a0) (3.7)
+Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in ./anaconda3/lib/python3.11/site-packages (from requests&gt;=2.19.0-&gt;dgl-&gt;polygraphs_updated==0.0.21a0) (2.2.2)
+Requirement already satisfied: certifi&gt;=2017.4.17 in ./anaconda3/lib/python3.11/site-packages (from requests&gt;=2.19.0-&gt;dgl-&gt;polygraphs_updated==0.0.21a0) (2024.8.30)
+Requirement already satisfied: MarkupSafe&gt;=2.0 in ./anaconda3/lib/python3.11/site-packages (from jinja2-&gt;torch-&gt;polygraphs_updated==0.0.21a0) (2.1.3)
+Requirement already satisfied: mpmath&lt;1.4,&gt;=1.1.0 in ./anaconda3/lib/python3.11/site-packages (from sympy-&gt;torch-&gt;polygraphs_updated==0.0.21a0) (1.3.0)
+Building wheels for collected packages: polygraphs_updated
+  Building wheel for polygraphs_updated (pyproject.toml) ... ?25ldone
+?25h  Created wheel for polygraphs_updated: filename=polygraphs_updated-0.0.21a0-py3-none-any.whl size=58656 sha256=552098fd07b10dfb8f376bcf35ddebdd63c85a85837620644f4fcd3e5564240e
+  Stored in directory: /private/var/folders/wq/04nwpt7x14z8gbgnd282snh80000gp/T/pip-ephem-wheel-cache-i7q8bpd2/wheels/13/f3/e5/c9ed314d7f76d8291c467f21bfd9063f146812a640dd1e3cc7
+Successfully built polygraphs_updated
+Installing collected packages: polygraphs_updated
+Successfully installed polygraphs_updated-0.0.21a0
+</pre></div>
+</div>
+</div>
+</div>
+<p><span style="font-size: 16px;"> Let’s start by having a look inside the file by printing the first five lines:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Open the text file in read mode </span>
+<span class="c1">#you can download it from the drive folder</span>
+<span class="c1">#ALERT you have to adjust your file path according to the location on your local machine</span>
+<span class="n">input_file</span> <span class="o">=</span> <span class="s1">&#39;/Users/mariafedericanorelli/Desktop/humannetworkscience/datasets/CollegeMsg.txt&#39;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="c1"># Read the first line</span>
+    <span class="n">first_five_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">file</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">first_five_lines</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;1 2 1082040961&#39;, &#39;3 4 1082155839&#39;, &#39;5 2 1082414391&#39;, &#39;6 7 1082439619&#39;, &#39;8 7 1082439756&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p><span style="font-size: 16px;"> We have a list of tuples, each corresponding to an edge, representing a message sent from the source node (user) to the target node (user) at a specific time. This is saved in a plain txt file but Polygraphs requires (and it is always a good practice working with) structured data in a tabular layout, so to make it easier to process and manipulate. In order to do so, we have to import from the given Polygraphs module for converting txt file to csv and open it:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">polygraphs_updated.datasets.fromData2Graphs</span> <span class="kn">import</span> <span class="n">txt_to_csv</span><span class="p">,</span> <span class="n">read_csv</span>
+<span class="c1">#convert from txt to csv  </span>
+<span class="c1">#ALERT you have to decide the location on your machine where to save the csv file </span>
+<span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;/Users/mariafedericanorelli/Desktop/humannetworkscience/datasets/CollegeMsg.csv&#39;</span>
+<span class="n">txt_to_csv</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Conversion completed. CSV file saved at: /Users/mariafedericanorelli/Desktop/humannetworkscience/datasets/CollegeMsg.csv
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#read it </span>
+<span class="n">messages</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">timestamps</span> <span class="o">=</span> <span class="n">read_csv</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">source_column_name</span> <span class="o">=</span> <span class="s1">&#39;SRC&#39;</span><span class="p">,</span> <span class="n">destination_column_name</span><span class="o">=</span> <span class="s1">&#39;DST&#39;</span><span class="p">,</span> <span class="n">timestamp_column_name</span><span class="o">=</span><span class="s1">&#39;timestamp&#39;</span><span class="p">)</span> 
+
+<span class="n">messages</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>SRC</th>
+      <th>DST</th>
+      <th>timestamp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3</td>
+      <td>4</td>
+      <td>1082155839</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5</td>
+      <td>2</td>
+      <td>1082414391</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>6</td>
+      <td>7</td>
+      <td>1082439619</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>8</td>
+      <td>7</td>
+      <td>1082439756</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>9</td>
+      <td>10</td>
+      <td>1082440403</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><span style="font-size: 16px;"> In this dataset, each row represents an edge in the graph. The first column identifies the source node (the sender of the message), the second column denotes the destination node (the receiver), and the third column contains the timestamp indicating when the message was sent. Now that we understand the structure of our data, we are ready to create our graph. However, before proceeding, let’s consider an alternative scenario in which we wanto to fetch the dataset remotely from the URL, without firstly dowloading it locally. Again, we have to import the dedicated function:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">polygraphs_updated.datasets.fromData2Graphs</span> <span class="kn">import</span> <span class="n">fetch_file</span>
+<span class="c1">#ALERT you have to decide the destination folder on your machine where to save the dataset </span>
+<span class="n">destination_folder</span> <span class="o">=</span> <span class="s1">&#39;/Users/mariafedericanorelli/Desktop/humannetworkscience/datasets&#39;</span>
+<span class="n">origin</span> <span class="o">=</span> <span class="s1">&#39;https://snap.stanford.edu/data/CollegeMsg.txt.gz&#39;</span>
+<span class="n">online_file</span> <span class="o">=</span> <span class="n">fetch_file</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">destination_folder</span><span class="p">)</span>
+
+<span class="n">online_messages</span><span class="p">,</span> <span class="n">online_source</span><span class="p">,</span> <span class="n">online_destination</span><span class="p">,</span> <span class="n">online_timestamps</span>  <span class="o">=</span> <span class="n">read_csv</span><span class="p">(</span><span class="n">online_file</span><span class="p">,</span> <span class="n">source_column_name</span> <span class="o">=</span> <span class="s1">&#39;SRC&#39;</span><span class="p">,</span> <span class="n">destination_column_name</span><span class="o">=</span> <span class="s1">&#39;DST&#39;</span><span class="p">,</span> <span class="n">timestamp_column_name</span><span class="o">=</span><span class="s1">&#39;timestamp&#39;</span><span class="p">)</span> 
+
+<span class="n">online_messages</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>SRC</th>
+      <th>DST</th>
+      <th>timestamp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3</td>
+      <td>4</td>
+      <td>1082155839</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5</td>
+      <td>2</td>
+      <td>1082414391</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>6</td>
+      <td>7</td>
+      <td>1082439619</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>8</td>
+      <td>7</td>
+      <td>1082439756</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>9</td>
+      <td>10</td>
+      <td>1082440403</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><span style="font-size: 16px;"> Let’s call now the functions to create the graph, normalize it and save it.*
+To provide a comprehensive view of the network dynamics, we will generate both a static and a temporal graph and compare them.</p>
+<p>*We normalize the nodes data in order to make our analysis comparable across different graphs or datasets. Normalizing to a common scale (i.e. 0 to 1) also ensures that all attributes are on a common scale. This is particularly important when node values represent different metrics (e.g., weights, degrees, centrality measures) that may have different units or ranges. By normalizing these values, Polygraphs makes it easier to compare and analyze nodes effectively.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">polygraphs_updated.datasets.fromData2Graphs</span> <span class="kn">import</span> <span class="n">create_graph</span><span class="p">,</span> <span class="n">create_temporal_graph</span><span class="p">,</span> <span class="n">normalize_graph</span><span class="p">,</span> <span class="n">save_graph</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><span style="font-size: 16px;"> For the static version of the graph can simply avoid calling the variable ‘timestamps’ when creating it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#create the graph </span>
+<span class="n">G_static</span> <span class="o">=</span> <span class="n">create_graph</span> <span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">dest</span><span class="p">)</span>
+
+<span class="c1">#normalize it</span>
+<span class="n">normalized_graph_static</span> <span class="o">=</span> <span class="n">normalize_graph</span><span class="p">(</span><span class="n">G_static</span><span class="p">)</span>
+
+<span class="c1">#save graph</span>
+<span class="c1">##ALERT you have to decide the destination folder on your machine where to save the graphs </span>
+<span class="n">destination_folder</span> <span class="o">=</span> <span class="s1">&#39;/Users/mariafedericanorelli/Desktop/humannetworkscience/graphs&#39;</span>
+<span class="n">save_graph</span><span class="p">(</span> <span class="n">normalized_graph_static</span><span class="p">,</span> <span class="s2">&quot;gml&quot;</span><span class="p">,</span> <span class="n">destination_folder</span><span class="p">,</span> <span class="s1">&#39;College_Message_SG&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The graph has 1899 nodes and 20295 edges
+Graph saved as /Users/mariafedericanorelli/Desktop/humannetworkscience/graphs/College_Message_SG.gml
+</pre></div>
+</div>
+</div>
+</div>
+<p><span style="font-size: 16px;"> Let’s visualize a specific segment of the graph (e.g. the first 100 edges)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#plot the graph </span>
+<span class="kn">from</span> <span class="nn">polygraphs_updated.datasets.fromData2Graphs</span>  <span class="kn">import</span> <span class="n">print_graph_details</span>
+
+<span class="n">print_graph_details</span><span class="p">(</span><span class="n">normalized_graph_static</span><span class="p">,</span> <span class="n">num_edges</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">output_file</span><span class="o">=</span><span class="s2">&quot;Static_Messages.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Subgraph saved as Static_Messages.png
+</pre></div>
+</div>
+<img alt="../../_images/04014789abe7ad9fc0cdf84aa82ce17932209cda12c2522316f4994518b37ab4.png" src="../../_images/04014789abe7ad9fc0cdf84aa82ce17932209cda12c2522316f4994518b37ab4.png" />
+</div>
+</div>
+<p><span style="font-size: 16px;"> To effectively build a temporal graph, we choose to use the timestamp data to create subgraphs that represent snapshots of the network at different time intervals (i.e. weeks or months). The subgraphs are ordered in sequence based on the timestamps associated with the nodes. Creating subgraphs ordered by time enables us to analyze segments of the network at defined intervals, where each subgraph represents the state of the network during a particular time slice. For this dataset, the edges represent interactions that occur at specific time points. By ordering these interactions based on their timestamps, we can observe how relationships evolved over time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#create the graph</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">create_temporal_graph</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">)</span>
+
+<span class="c1">#normalize it</span>
+<span class="n">normalized_graph</span> <span class="o">=</span> <span class="n">normalize_graph</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+<span class="c1">#save it </span>
+<span class="n">save_graph</span><span class="p">(</span> <span class="n">normalized_graph</span><span class="p">,</span> <span class="s2">&quot;gml&quot;</span><span class="p">,</span> <span class="n">destination_folder</span><span class="p">,</span> <span class="s1">&#39;College_Message_NG&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The temporal graph has 1899 nodes and 20295 edges
+Graph saved as /Users/mariafedericanorelli/Desktop/humannetworkscience/graphs/College_Message_NG.gml
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># check for Unix timestamps </span>
+<span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Initialize a counter to limit the output</span>
+<span class="n">max_edges</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># Set the maximum number of edges you want to print</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Inspecting edge attributes...&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">normalized_graph</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Edge from </span><span class="si">{</span><span class="n">u</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> - Attributes: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Check if &#39;timestamp&#39; is present in the edge attributes</span>
+    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;timestamp&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">timestamp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Edge (</span><span class="si">{</span><span class="n">u</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">) - Timestamp: </span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No timestamp found in this edge.&quot;</span><span class="p">)</span>
+        
+    <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Increment the counter</span>
+    <span class="k">if</span> <span class="n">counter</span> <span class="o">&gt;=</span> <span class="n">max_edges</span><span class="p">:</span>  <span class="c1"># Stop if the counter reaches the limit</span>
+        <span class="k">break</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Inspecting edge attributes...
+Edge from 3 to 4 - Attributes: {&#39;timestamp&#39;: 1082155839}
+Edge (3, 4) - Timestamp: 1082155839
+Edge from 3 to 84 - Attributes: {&#39;timestamp&#39;: 1082624696}
+Edge (3, 84) - Timestamp: 1082624696
+Edge from 3 to 155 - Attributes: {&#39;timestamp&#39;: 1088378565}
+Edge (3, 155) - Timestamp: 1088378565
+Edge from 3 to 58 - Attributes: {&#39;timestamp&#39;: 1082751801}
+Edge (3, 58) - Timestamp: 1082751801
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#plot the graph </span>
+<span class="kn">from</span> <span class="nn">polygraphs_updated.datasets.fromData2Graphs</span>  <span class="kn">import</span> <span class="n">print_graph_details</span>
+
+<span class="n">print_graph_details</span><span class="p">(</span><span class="n">normalized_graph</span><span class="p">,</span> <span class="n">num_edges</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">output_file</span><span class="o">=</span><span class="s2">&quot;Temporal_Messages.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Subgraph saved as Temporal_Messages.png
+</pre></div>
+</div>
+<img alt="../../_images/42b9f274d1bafa3b87b353cc6d6731469778a2fb73738b2f8a7183d3addd7f01.png" src="../../_images/42b9f274d1bafa3b87b353cc6d6731469778a2fb73738b2f8a7183d3addd7f01.png" />
+</div>
+</div>
+</section>
+<section id="run-the-simulations">
+<h3><span class="section-number">4.2.3. </span>Run the Simulations<a class="headerlink" href="#run-the-simulations" title="Link to this heading">#</a></h3>
+<p><span style="font-size: 16px;"> Polygraphs mainly aims to model how opinions or beliefs spread within a network of individuals. In this case, (University of California dataset) In this specific case, we used the University of California dataset, which captures interactions between individuals through message exchanges. Our goal was to investigate belief propagation by analyzing how these message interactions influence the spread of opinions across the network. Think of it as a representation of how people communicate in a community, where each person (represented as a node in the graph) can influence the opinions of others by sharing information or discussing topics through message exchanges. Each individual begins with an initial belief, which evolves over time through interactions with their neighbors. The simulation models the process of influence, where each person’s belief is affected by the messages they receive from others.</p>
+<p><span style="font-size: 16px;"> In Polygraphs, we run simulation on graphs using a configuration file with specific parameters. To adapt the software to temporal networks, we will run simulations on these subgraphs so that, for each subgraph, the simulation will run for a specified number of steps before switching to the next subgraph. Since we want temporal continuity between simulations, each interval’s simulation should continue from where the previous one left off. This means that the beliefs (node states) at the end of one simulation should be the starting beliefs for the next interval’s simulation.</p>
+<p>We need to add a new parameter ‘interval’ to our configuration file to specify the interval for subgraph creation. Recall you can choose ‘week’or ‘month’.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#static graph conf file</span>
+<span class="c1"># ALTER you have to specify the location of the configuration file on your machine, you can download it from the drive</span>
+<span class="n">conf_path_S</span> <span class="o">=</span> <span class="s1">&#39;/Users/mariafedericanorelli/Desktop/humannetworkscience/polygraphs_updated/configs/College_Message_SG.yaml&#39;</span>
+<span class="c1">#simulate</span>
+<span class="o">!</span>polygraphs_updated<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;{conf_path_S}&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requested directory: auto
+Head: , Tail: auto
+Using head: ~/polygraphs-cache/results/
+Attempt 1: Trying to create /Users/mariafedericanorelli/polygraphs-cache/results/2024-12-05/3042a204c12a46ffbe82ead2257018a5
+Directory created: /Users/mariafedericanorelli/polygraphs-cache/results/2024-12-05/3042a204c12a46ffbe82ead2257018a5
+No timestamps found, running as a static graph without temporal information.
+[MON] step 0001 Ksteps/s   0.00 A/B 0.49/0.51
+[MON] step 0100 Ksteps/s   0.05 A/B 0.09/0.91
+[MON] step 0200 Ksteps/s   0.05 A/B 0.03/0.97
+[MON] step 0300 Ksteps/s   0.05 A/B 0.02/0.98
+[MON] step 0400 Ksteps/s   0.05 A/B 0.01/0.99
+[MON] step 0500 Ksteps/s   0.05 A/B 0.00/1.00
+[MON] step 0600 Ksteps/s   0.05 A/B 0.00/1.00
+[MON] step 0700 Ksteps/s   0.05 A/B 0.00/1.00
+[MON] step 0800 Ksteps/s   0.05 A/B 0.00/1.00
+[MON] step 0900 Ksteps/s   0.05 A/B 0.00/1.00
+[MON] step 1000 Ksteps/s   0.05 A/B 0.00/1.00
+ INFO polygraphs&gt; Sim #0001 Interval : 1000 steps   20.99s; action: ? undefined: False converged: False polarized: False
+Results directory: /Users/mariafedericanorelli/polygraphs-cache/results/2024-12-05/3042a204c12a46ffbe82ead2257018a5
+Bye.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#temporal configuration file</span>
+<span class="c1">#ALERT same as above</span>
+<span class="n">conf_path</span> <span class="o">=</span> <span class="s1">&#39;/Users/mariafedericanorelli/Desktop/humannetworkscience/polygraphs_updated/configs/College_Message.yaml&#39;</span>
+
+<span class="c1">##let&#39;s do a check of the interval parameters</span>
+<span class="c1"># test_yaml_loading.py</span>
+<span class="kn">from</span> <span class="nn">polygraphs_updated.hyperparameters</span> <span class="kn">import</span> <span class="n">PolyGraphHyperParameters</span>
+
+<span class="c1"># see is the interval is the one we want </span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">PolyGraphHyperParameters</span><span class="o">.</span><span class="n">fromYAML</span><span class="p">(</span><span class="n">conf_path</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Interval loaded from config:&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">interval</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Interval loaded from config: month
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#simulatation </span>
+<span class="o">!</span>polygraphs_updated<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;{conf_path}&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requested directory: auto
+Head: , Tail: auto
+Using head: ~/polygraphs-cache/results/
+Attempt 1: Trying to create /Users/mariafedericanorelli/polygraphs-cache/results/2024-12-05/4f1bfb05c83b44c1b610479a34b25d3a
+Directory created: /Users/mariafedericanorelli/polygraphs-cache/results/2024-12-05/4f1bfb05c83b44c1b610479a34b25d3a
+Timestamps added to the graph.
+Total edges: 40418
+Created subgraph for interval 2004-04: 2992 edges.
+Graph ID for interval 2004-04: 4660830800
+SubGraph ID for interval 2004-04: 7075638800
+Edge (3, 4) - Timestamp: 1082155839
+Edge (3, 84) - Timestamp: 1082624696
+Edge (3, 58) - Timestamp: 1082751801
+Edge (3, 185) - Timestamp: 1082832584
+Edge (3, 221) - Timestamp: 1083040089
+Created subgraph for interval 2004-05: 24304 edges.
+Graph ID for interval 2004-05: 4660830800
+SubGraph ID for interval 2004-05: 7075570320
+Edge (3, 132) - Timestamp: 1083900742
+Edge (3, 618) - Timestamp: 1083655411
+Edge (3, 99) - Timestamp: 1083808953
+Edge (3, 385) - Timestamp: 1083809094
+Edge (3, 814) - Timestamp: 1083901316
+Created subgraph for interval 2004-06: 6506 edges.
+Graph ID for interval 2004-06: 4660830800
+SubGraph ID for interval 2004-06: 7074769936
+Edge (3, 155) - Timestamp: 1088378565
+Edge (3, 1577) - Timestamp: 1086234548
+Edge (3, 1578) - Timestamp: 1086233742
+Edge (3, 781) - Timestamp: 1086291360
+Edge (3, 135) - Timestamp: 1086685617
+Created subgraph for interval 2004-07: 2612 edges.
+Graph ID for interval 2004-07: 4660830800
+SubGraph ID for interval 2004-07: 7074784656
+Edge (3, 308) - Timestamp: 1089632770
+Edge (3, 68) - Timestamp: 1089632770
+Edge (3, 72) - Timestamp: 1089632770
+Edge (3, 42) - Timestamp: 1089632773
+Edge (3, 498) - Timestamp: 1089632770
+Created subgraph for interval 2004-08: 1772 edges.
+Graph ID for interval 2004-08: 4660830800
+SubGraph ID for interval 2004-08: 7075078224
+Edge (3, 687) - Timestamp: 1091532342
+Edge (3, 754) - Timestamp: 1091532342
+Edge (3, 234) - Timestamp: 1091532342
+Edge (3, 1713) - Timestamp: 1093436605
+Edge (3, 1585) - Timestamp: 1091384338
+Created subgraph for interval 2004-09: 1374 edges.
+Graph ID for interval 2004-09: 4660830800
+SubGraph ID for interval 2004-09: 7075013264
+Edge (3, 32) - Timestamp: 1094581041
+Edge (3, 36) - Timestamp: 1094287199
+Edge (3, 44) - Timestamp: 1094287217
+Edge (3, 146) - Timestamp: 1095039246
+Edge (3, 1649) - Timestamp: 1095064723
+Created subgraph for interval 2004-10: 858 edges.
+Graph ID for interval 2004-10: 4660830800
+SubGraph ID for interval 2004-10: 4977236752
+Edge (3, 372) - Timestamp: 1097971961
+Edge (3, 176) - Timestamp: 1097971960
+Edge (3, 482) - Timestamp: 1097971961
+Edge (3, 2) - Timestamp: 1097971961
+Edge (3, 800) - Timestamp: 1097971961
+Number of subgraphs created: 7
+Running simulation 1/7 for interval: 2004-04, Repetition: 1
+[MON] step 0001 Ksteps/s   0.00 A/B 0.49/0.51
+[MON] step 0100 Ksteps/s   0.25 A/B 0.43/0.57
+[MON] step 0142 Ksteps/s   0.25 A/B 0.41/0.59
+Storing subgraph with prefix: 2004-04
+ INFO polygraphs&gt; Sim #0001 Interval 2004-04: 142 steps    0.58s; action: ? undefined: False converged: False polarized: False
+Updated node states after simulation: tensor([0.8378, 0.3430, 0.9968,  ..., 0.5042, 0.1194, 0.5028])
+Running simulation 2/7 for interval: 2004-05, Repetition: 1
+[MON] step 0001 Ksteps/s   0.00 A/B 0.49/0.51
+[MON] step 0100 Ksteps/s   0.07 A/B 0.17/0.83
+[MON] step 0142 Ksteps/s   0.06 A/B 0.14/0.86
+Storing subgraph with prefix: 2004-05
+ INFO polygraphs&gt; Sim #0001 Interval 2004-05: 142 steps    2.21s; action: ? undefined: False converged: False polarized: False
+Updated node states after simulation: tensor([1.0000, 0.9665, 1.0000,  ..., 0.1261, 0.3588, 0.1200])
+Running simulation 3/7 for interval: 2004-06, Repetition: 1
+[MON] step 0001 Ksteps/s   0.00 A/B 0.49/0.51
+[MON] step 0100 Ksteps/s   0.20 A/B 0.33/0.67
+[MON] step 0142 Ksteps/s   0.19 A/B 0.28/0.72
+Storing subgraph with prefix: 2004-06
+ INFO polygraphs&gt; Sim #0001 Interval 2004-06: 142 steps    0.74s; action: ? undefined: False converged: False polarized: False
+Updated node states after simulation: tensor([0.9999, 0.9712, 0.9910,  ..., 0.5999, 0.8758, 0.2227])
+Running simulation 4/7 for interval: 2004-07, Repetition: 1
+[MON] step 0001 Ksteps/s   0.00 A/B 0.51/0.49
+[MON] step 0100 Ksteps/s   0.24 A/B 0.43/0.57
+[MON] step 0142 Ksteps/s   0.24 A/B 0.41/0.59
+Storing subgraph with prefix: 2004-07
+ INFO polygraphs&gt; Sim #0001 Interval 2004-07: 142 steps    0.59s; action: ? undefined: False converged: False polarized: False
+Updated node states after simulation: tensor([0.9958, 0.6504, 0.7451,  ..., 0.4534, 0.6954, 0.9746])
+Running simulation 5/7 for interval: 2004-08, Repetition: 1
+[MON] step 0001 Ksteps/s   0.00 A/B 0.48/0.52
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="results-analysis">
+<h3><span class="section-number">4.2.4. </span>Results Analysis<a class="headerlink" href="#results-analysis" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the temporal simulation data from the directory specified above </span>
+<span class="c1"># Specify the date of the simulation we want to access</span>
+<span class="n">_DATE</span> <span class="o">=</span> <span class="s2">&quot;2024-12-05&quot;</span>
+
+<span class="c1"># Construct the results directory dynamically</span>
+<span class="n">_RESULTS_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;~/polygraphs-cache/results/</span><span class="si">{</span><span class="n">_DATE</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load the temporal simulation data</span>
+<span class="n">dataT_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_RESULTS_DIR</span><span class="p">,</span> <span class="s2">&quot;c7b755066fbb45dcba0bcaeb52a859aa&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load the static simulation data</span>
+<span class="n">dataS_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_RESULTS_DIR</span><span class="p">,</span> <span class="s2">&quot;8c413cb37c984f58aabf31c476d055e3&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">polygraphs_updated.analysis</span> <span class="kn">import</span> <span class="n">SimulationProcessor</span><span class="p">,</span>  <span class="n">Beliefs</span><span class="p">,</span> <span class="n">BeliefProcessor</span><span class="p">,</span> <span class="n">GraphConverter</span>
+
+<span class="c1"># Instantiate SimulationProcessor</span>
+<span class="n">simulation_processor</span><span class="o">=</span><span class="n">SimulationProcessor</span><span class="p">()</span>
+
+<span class="c1"># Use the process_simulations() method to process the entire folder</span>
+<span class="n">simulation_processor</span><span class="o">.</span><span class="n">process_simulations</span><span class="p">(</span><span class="n">dataS_path</span><span class="p">)</span>
+
+<span class="c1"># Get the resulting DataFrame with all the paths to the `.bin` and `.hd5` files</span>
+<span class="n">simulation_dataframe</span> <span class="o">=</span> <span class="n">simulation_processor</span><span class="o">.</span><span class="n">dataframe</span>
+
+<span class="c1"># Display the DataFrame</span>
+<span class="n">display</span><span class="p">(</span><span class="n">simulation_dataframe</span><span class="p">)</span>
+<span class="c1"># Instantiate BeliefProcessor and GraphConverter</span>
+<span class="n">belief_processor</span> <span class="o">=</span> <span class="n">BeliefProcessor</span><span class="p">()</span>
+<span class="n">graph_converter</span> <span class="o">=</span> <span class="n">GraphConverter</span><span class="p">()</span>
+
+<span class="c1"># Instantiate the Beliefs class using the DataFrame from SimulationProcessor</span>
+<span class="n">beliefs_instance</span> <span class="o">=</span> <span class="n">Beliefs</span><span class="p">(</span><span class="n">simulation_dataframe</span><span class="p">,</span> <span class="n">belief_processor</span><span class="p">,</span> <span class="n">graph_converter</span><span class="p">)</span>
+
+<span class="c1"># Access beliefs for a particular simulation</span>
+<span class="n">beliefs_df</span> <span class="o">=</span> <span class="n">beliefs_instance</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Get beliefs DataFrame for the first simulation</span>
+<span class="n">display</span><span class="p">(</span><span class="n">beliefs_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">polygraphs_updated.analysis</span> <span class="kn">import</span> <span class="n">SimulationProcessor</span><span class="p">,</span>  <span class="n">Beliefs</span><span class="p">,</span> <span class="n">BeliefProcessor</span><span class="p">,</span> <span class="n">GraphConverter</span>
+
+<span class="c1"># Instantiate SimulationProcessor</span>
+<span class="n">simulation_processor_T</span> <span class="o">=</span> <span class="n">SimulationProcessor</span><span class="p">()</span>
+
+<span class="c1"># Use the process_simulations() method to process the entire folder</span>
+<span class="n">simulation_processor_T</span><span class="o">.</span><span class="n">process_simulations</span><span class="p">(</span><span class="n">dataT_path</span><span class="p">)</span>
+
+<span class="c1"># Get the resulting DataFrame with all the paths to the `.bin` and `.hd5` files</span>
+<span class="n">simulation_dataframe_t</span> <span class="o">=</span> <span class="n">simulation_processor_T</span><span class="o">.</span><span class="n">dataframe</span>
+
+<span class="c1"># Display the DataFrame</span>
+<span class="n">display</span><span class="p">(</span><span class="n">simulation_dataframe_t</span><span class="p">)</span>
+
+<span class="c1"># Instantiate BeliefProcessor and GraphConverter</span>
+<span class="n">belief_processor_t</span> <span class="o">=</span> <span class="n">BeliefProcessor</span><span class="p">()</span>
+<span class="n">graph_converter_t</span> <span class="o">=</span> <span class="n">GraphConverter</span><span class="p">()</span>
+
+<span class="c1"># Instantiate the Beliefs class using the DataFrame from SimulationProcessor</span>
+<span class="n">beliefs_instance_t</span> <span class="o">=</span> <span class="n">Beliefs</span><span class="p">(</span><span class="n">simulation_dataframe_t</span><span class="p">,</span> <span class="n">belief_processor_t</span><span class="p">,</span> <span class="n">graph_converter_t</span><span class="p">)</span>
+
+<span class="c1"># Access beliefs for a particular simulation</span>
+<span class="n">beliefs_df_t</span> <span class="o">=</span> <span class="n">beliefs_instance_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Get beliefs DataFrame for the first simulation</span>
+<span class="n">display</span><span class="p">(</span><span class="n">beliefs_df_t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##plot </span>
+<span class="c1"># Group the beliefs data by &#39;step&#39; using each DataFrame</span>
+<span class="n">grouped_beliefs</span> <span class="o">=</span> <span class="n">beliefs_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;step&quot;</span><span class="p">)[</span><span class="s2">&quot;beliefs&quot;</span><span class="p">]</span>
+<span class="n">grouped_beliefs_2</span> <span class="o">=</span> <span class="n">beliefs_df_t</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;step&quot;</span><span class="p">)[</span><span class="s2">&quot;beliefs&quot;</span><span class="p">]</span>
+<span class="c1"># Create two subplots side by side for Scenario 1 and Scenario 2</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grouped_beliefs</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Mean&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grouped_beliefs</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Median&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grouped_beliefs</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Min&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grouped_beliefs</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Max&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-.&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grouped_beliefs</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;25th Quantile&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;brown&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grouped_beliefs</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.01</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;01st Quantile&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">)</span>
+
+<span class="c1"># Set axis labels and title for Scenario 1</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Step&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Belief Value&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Static Network Statistics&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="c1"># Set the limits for the y-axis</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grouped_beliefs_2</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Mean&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grouped_beliefs_2</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Median&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grouped_beliefs_2</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Min&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grouped_beliefs_2</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Max&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-.&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grouped_beliefs_2</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;25th Quantile&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;brown&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grouped_beliefs_2</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.01</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;01st Quantile&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">)</span>
+
+<span class="c1"># Set axis labels and title for Scenario 2</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Step&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Belief Value&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Temporal Network Statistics&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="c1"># Set the limits for the y-axis</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">)</span>
+
+<span class="c1"># Show the second plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "brianandrewball/humannetworkscience",
+            ref: "jupyter-book",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/HNS4-Temporal-Networks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../HNS3-Network-Dynamics/HNS3-Network-Dynamics.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Introduction to basic models</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../HNS5-Adaptive-Networks/HNS5-Adaptive-Networks.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Adaptive networks</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">4.1. Introduction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-temporal-networks">4.1.1. What are temporal networks?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statics-vs-temporal">4.1.2. Statics vs Temporal</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#timestamps">4.1.3. Timestamps</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-simulations-with-polygraphs">4.2. Running Simulations with Polygraphs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dataset">4.2.1. The Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-datasets-to-temporal-graphs">4.2.2. From Datasets to (Temporal) Graphs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-the-simulations">4.2.3. Run the Simulations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results-analysis">4.2.4. Results Analysis</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By B. Ball
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

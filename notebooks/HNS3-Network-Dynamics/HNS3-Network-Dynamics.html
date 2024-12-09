@@ -1,0 +1,1472 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3. Introduction to basic models &#8212; Polygraphs Bootcamp</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/HNS3-Network-Dynamics/HNS3-Network-Dynamics';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="4. Temporal Networks" href="../HNS4-Temporal-Networks/HNS4-Temporal-Networks.html" />
+    <link rel="prev" title="2. Introduction to Networks" href="../HNS2-Intro-to-Networks/HNS2-Intro-to-Networks.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/HMN_logo.jpg" class="logo__image only-light" alt="Polygraphs Bootcamp - Home"/>
+    <img src="../../_static/HMN_logo.jpg" class="logo__image only-dark pst-js-only" alt="Polygraphs Bootcamp - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Northeastern University London - Polygraphs Program
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../HNS1-Intro-to-Python/HNS1-Intro-to-Python.html">1. Python is easy :)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../HNS2-Intro-to-Networks/HNS2-Intro-to-Networks.html">2. Introduction to Networks</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Dynamics</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Introduction to basic models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../HNS4-Temporal-Networks/HNS4-Temporal-Networks.html">4. Temporal Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../HNS5-Adaptive-Networks/HNS5-Adaptive-Networks.html">5. Adaptive networks</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../HNS6-Data-Analysis-Real-Polygraphs-Data/HNS6-Data-Analysis-Real-Polygraphs-Data.html">6. Data Analysis with Real Polygraphs Data</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/brianandrewball/humannetworkscience/jupyter-book?urlpath=tree/notebooks/HNS3-Network-Dynamics/HNS3-Network-Dynamics.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/brianandrewball/humannetworkscience" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/brianandrewball/humannetworkscience/issues/new?title=Issue%20on%20page%20%2Fnotebooks/HNS3-Network-Dynamics/HNS3-Network-Dynamics.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/HNS3-Network-Dynamics/HNS3-Network-Dynamics.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Introduction to basic models</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-simulations">3.1. Run simulations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-a-new-custom-operation">3.2. Write a new custom operation</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="introduction-to-basic-models">
+<h1><span class="section-number">3. </span>Introduction to basic models<a class="headerlink" href="#introduction-to-basic-models" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">dgl</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_code</span><span class="p">(</span><span class="n">raw_url</span><span class="p">,</span> <span class="n">start_line</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_line</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fetches raw code from a GitHub repository and returns a snippet of it with improved formatting.</span>
+<span class="sd">    :param raw_url: The URL to the raw content of the file on GitHub.</span>
+<span class="sd">    :param start_line: The starting line number (inclusive).</span>
+<span class="sd">    :param end_line: The ending line number (inclusive).</span>
+<span class="sd">    :return: The raw code snippet as a formatted string or an error message.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">raw_url</span><span class="p">)</span>
+    
+    <span class="c1"># Check if the request was successful</span>
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Failed to retrieve code. Status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">. URL may be incorrect or redirected.&quot;</span>
+    
+    <span class="c1"># Check if we received HTML instead of raw text (indicating a redirect or wrong URL)</span>
+    <span class="k">if</span> <span class="s2">&quot;&lt;html&gt;&quot;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s2">&quot;Error: Received HTML content. Please check the URL, it might not be the raw file.&quot;</span>
+    
+    <span class="c1"># Split the response into lines and extract the snippet</span>
+    <span class="n">code_lines</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    
+    <span class="c1"># Handle specific line range requests</span>
+    <span class="k">if</span> <span class="n">start_line</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">start_line</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">end_line</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">end_line</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_lines</span><span class="p">)</span>
+    
+    <span class="c1"># Adjust for 1-based indexing</span>
+    <span class="n">code_snippet</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">code_lines</span><span class="p">[</span><span class="n">start_line</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">end_line</span><span class="p">])</span>
+    
+    <span class="c1"># Return the formatted code snippet</span>
+    <span class="k">return</span> <span class="n">code_snippet</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><span style="font-size:20px; color:blue;">CLASS INHERITANCE EXPLAINED</span></p>
+<p>Classes are blueprints for creating objects</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Create a class </span>
+<span class="k">class</span> <span class="nc">Students</span><span class="p">():</span> 
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#create an instance of the class -- individual member of the class </span>
+<span class="n">student_1</span> <span class="o">=</span> <span class="n">Students</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <strong>init</strong>() method – also known as constructor or initializer – receives ‘self’ as a default first argument, followed by other arguments. These arguments denote the content of class attributes. Defining an initializer is the first essential step when creating a class</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Students</span><span class="p">():</span> 
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">,</span> <span class="n">grade</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">first</span> <span class="o">=</span> <span class="n">first</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">last</span> <span class="o">=</span> <span class="n">last</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grade</span> <span class="o">=</span> <span class="n">grade</span>
+    <span class="k">def</span> <span class="nf">fullname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">last</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">student_1</span> <span class="o">=</span> <span class="n">Students</span><span class="p">(</span><span class="s2">&quot;anna&quot;</span><span class="p">,</span> <span class="s2">&quot;johnson&quot;</span><span class="p">,</span> <span class="mi">76</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">student_1</span><span class="o">.</span><span class="n">first</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;anna&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">student_1</span><span class="o">.</span><span class="n">fullname</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;anna johnson&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>INHERITANCE</strong> – allows a class to inherit attributes and methods from a parent class – useful because by creating subclassess
+we can modify and override methods and attributes of parent class without modifying the parent class directly</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">HistoryStudents</span><span class="p">(</span><span class="n">Students</span><span class="p">):</span> <span class="c1">#creating a subclass of history students which is a subset of all the students </span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">student_2</span> <span class="o">=</span> <span class="n">HistoryStudents</span><span class="p">(</span><span class="s2">&quot;martha&quot;</span><span class="p">,</span> <span class="s2">&quot;wilde&quot;</span><span class="p">,</span> <span class="mi">82</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">student_2</span><span class="o">.</span><span class="n">fullname</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;martha wilde&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see how the class HistoryStudents automatically inherited attributes first, last and grade and the method fullname() from the parent class</p>
+<p>Now, let’s see how inheritance works by modifying the fullname() method</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">HistoryStudents</span><span class="p">(</span><span class="n">Students</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">,</span> <span class="n">grade</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">,</span> <span class="n">grade</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">fullname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">last</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="c1">#changing fullname method to display surname first</span>
+                                            <span class="c1">#we can call self.last and self.first </span>
+                                            <span class="c1">#without defining them in the initializer thanks to inheritance!</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">student_1</span><span class="o">.</span><span class="n">fullname</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;anna johnson&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">student_1</span> <span class="o">=</span> <span class="n">HistoryStudents</span><span class="p">(</span><span class="s2">&quot;anna&quot;</span><span class="p">,</span> <span class="s2">&quot;johnson&quot;</span><span class="p">,</span> <span class="mi">76</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">student_1</span><span class="o">.</span><span class="n">fullname</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;johnson anna&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><span style="font-size:22px; color:blue;">POLYGRAPHS CODE STRUCTURE</span></p>
+<p>Polygraphs operations are used to specify nodes and edges attributes. They are derived from the basic class PolygraphsOp and divided into common operations and complex operations</p>
+<p><strong>Common operations</strong> include: BalaGoyalOp and OConnorandWeatherhallOp</p>
+<p><strong>Complex operations</strong> include: GullibleBinomialOp, GullibleNegativeEps, AlignedBinomialOp, AlignedNegativeEpsOp</p>
+<p>All Polygraphs operations follow the same logic:</p>
+<img src="images/img2.png" alt="Alt Text" width="300" height="300"/> <ol class="arabic simple">
+<li><p>Initialize –&gt; <strong>init()</strong></p></li>
+<li><p>Experiment –&gt; <strong>experiment()</strong></p></li>
+<li><p>Filter –&gt; <strong>filterfn()</strong></p></li>
+<li><p>Send –&gt; <strong>messagefn()</strong></p></li>
+<li><p>Reduce –&gt; <strong>reducefn()</strong></p></li>
+<li><p>Update –&gt; <strong>applyfn()</strong></p></li>
+</ol>
+<p>All polygraphs operations inherit from the base class <strong>PolygraphOp</strong> which can be found in the <a class="reference external" href="http://ops.core.py">ops.core.py</a> module</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">snippet</span> <span class="o">=</span> <span class="n">get_code</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/alexandroskoliousis/polygraphs/main/polygraphs/ops/core.py&quot;</span><span class="p">,</span> <span class="n">start_line</span> <span class="o">=</span> <span class="mi">11</span><span class="p">,</span> <span class="n">end_line</span> <span class="o">=</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;```python</span><span class="se">\n</span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="se">\n</span><span class="s1">```&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PolyGraphOp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base operator from which all other operators are derived.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>The bulk of the <strong>init</strong> and <strong>experiment()</strong> method are defined in the PolygraphOp</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">snippet</span> <span class="o">=</span> <span class="n">get_code</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/alexandroskoliousis/polygraphs/main/polygraphs/ops/core.py&quot;</span><span class="p">,</span> <span class="n">start_line</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> <span class="n">end_line</span> <span class="o">=</span> <span class="mi">42</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;```python</span><span class="se">\n</span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="se">\n</span><span class="s1">```&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="c1"># Set device for experimentation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">device</span>
+
+        <span class="c1"># The shape of all node attributes</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">(),)</span>
+
+        <span class="c1"># Node beliefs that action B is better</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;beliefs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">init</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">init</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_device</span><span class="p">)</span>
+
+        <span class="c1"># Action B yields Bernoulli payoff of 1 (success) with probability p (= 0.5 + e)</span>
+        <span class="n">probs</span> <span class="o">=</span> <span class="n">init</span><span class="o">.</span><span class="n">halfs</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="o">+</span> <span class="n">params</span><span class="o">.</span><span class="n">epsilon</span>
+
+        <span class="c1"># Number of Bernoulli trials</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">init</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="o">+</span> <span class="n">params</span><span class="o">.</span><span class="n">trials</span>
+
+        <span class="c1"># Each node gets a private signal that provides information</span>
+        <span class="c1"># about whether action B is indeed a good action</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sampler</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">binomial</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span>
+            <span class="n">total_count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="n">probs</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Store action B&#39;s probability of success as a graph node attribute</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;logits&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sampler</span><span class="o">.</span><span class="n">logits</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_device</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">snippet</span> <span class="o">=</span> <span class="n">get_code</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/alexandroskoliousis/polygraphs/main/polygraphs/ops/core.py&quot;</span><span class="p">,</span> <span class="n">start_line</span> <span class="o">=</span> <span class="mi">43</span><span class="p">,</span> <span class="n">end_line</span> <span class="o">=</span> <span class="mi">48</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;```python</span><span class="se">\n</span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="se">\n</span><span class="s1">```&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draws a sample from the binomial distribution.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sampler</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">snippet</span> <span class="o">=</span> <span class="n">get_code</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/alexandroskoliousis/polygraphs/main/polygraphs/ops/core.py&quot;</span><span class="p">,</span> <span class="n">start_line</span> <span class="o">=</span> <span class="mi">55</span><span class="p">,</span> <span class="n">end_line</span> <span class="o">=</span> <span class="mi">70</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;```python</span><span class="se">\n</span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="se">\n</span><span class="s1">```&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Simulates an &quot;experiment&quot;, where nodes who believe action B is better independently</span>
+<span class="sd">        observe the payoffs from following action B by sampling a binomial distribution.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Consider only nodes who believe action B is better</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;beliefs&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.5</span>
+        <span class="c1"># Repeat mask</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">tile</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="c1"># Sample distribution (a node observes only a few successful trials out of all trials)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">trials</span><span class="p">()))</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_device</span><span class="p">)</span>
+        <span class="c1"># Apply mask</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">*</span> <span class="n">mask</span>
+        <span class="c1"># Store per-node payoffs as a graph node attribute</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;payoffs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">T</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<p><span style="font-size:18px; color:black;"> <strong>RELIABLE NETWORKS</strong></span></p>
+<p>Reliable networks follow a <strong>BalaGoyalOp</strong> which is defined as a subclass of PolygraphOp and therefore inherits the baseclass methods and attributes</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">snippet</span> <span class="o">=</span> <span class="n">get_code</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/alexandroskoliousis/polygraphs/main/polygraphs/ops/common.py&quot;</span><span class="p">,</span> <span class="n">start_line</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span> <span class="n">end_line</span> <span class="o">=</span> <span class="mi">44</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;```python</span><span class="se">\n</span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="se">\n</span><span class="s1">```&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BalaGoyalOp</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">PolyGraphOp</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Learning from neighbours (Bala &amp; Goyal, 1998)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Some reliable networks follow the <strong>OConnorandWeaterhallOp</strong>, which is defined as a subclass of BalaGoyalOp</p>
+<p>OConnorandWeaterhallOp modifies <span style="font-size:15x; color:purple;"><strong><strong>INIT()</strong></strong> </span> by adding two parameters: <strong>MISTRUST</strong> and <strong>ANTIUPDATING</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">snippet</span> <span class="o">=</span> <span class="n">get_code</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/alexandroskoliousis/polygraphs/main/polygraphs/ops/common.py&quot;</span><span class="p">,</span> <span class="n">start_line</span> <span class="o">=</span> <span class="mi">105</span><span class="p">,</span> <span class="n">end_line</span> <span class="o">=</span> <span class="mi">113</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;```python</span><span class="se">\n</span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="se">\n</span><span class="s1">```&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+        <span class="c1"># Multiplier that captures how quickly agents become uncertain about</span>
+        <span class="c1"># the evidence of their peers as their beliefs diverge.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mistrust</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">mistrust</span>
+
+        <span class="c1"># Whether to discount evidence with unti-updating or not</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">antiupdating</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">antiupdating</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Additionaly, it modifies <span style="font-size:15x; color:purple;"><strong><strong>REDUCE()</strong></strong> </span> by adding a parameter, delta, specifying the distance between an agent’s belief and its i-th neigbor belief</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">snippet</span> <span class="o">=</span> <span class="n">get_code</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/alexandroskoliousis/polygraphs/main/polygraphs/ops/common.py&quot;</span><span class="p">,</span> <span class="n">start_line</span> <span class="o">=</span> <span class="mi">166</span><span class="p">,</span> <span class="n">end_line</span> <span class="o">=</span> <span class="mi">166</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;```python</span><span class="se">\n</span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="se">\n</span><span class="s1">```&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>                <span class="n">delta</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">prior</span> <span class="o">-</span> <span class="n">nodes</span><span class="o">.</span><span class="n">mailbox</span><span class="p">[</span><span class="s2">&quot;beliefs&quot;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then, depending on wether antiupdating is set or not, the function computes <strong>certainty</strong>, i.e. the belief that evidence provided by i-th neighbor is real, differently:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">snippet</span> <span class="o">=</span> <span class="n">get_code</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/alexandroskoliousis/polygraphs/main/polygraphs/ops/common.py&quot;</span><span class="p">,</span> <span class="n">start_line</span> <span class="o">=</span> <span class="mi">146</span><span class="p">,</span> <span class="n">end_line</span> <span class="o">=</span> <span class="mi">190</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;```python</span><span class="se">\n</span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="se">\n</span><span class="s1">```&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">nodes</span><span class="p">):</span>
+            <span class="c1"># Log probability of successful trials</span>
+            <span class="n">logits</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;logits&quot;</span><span class="p">]</span>
+            <span class="c1"># Prior, P(H) (aka. belief)</span>
+            <span class="n">prior</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;beliefs&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Number of nodes and number of neighbours per node (incoming messages)</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">neighbours</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">mailbox</span><span class="p">[</span><span class="s2">&quot;beliefs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">neighbours</span><span class="p">):</span>
+                <span class="c1"># A node receives evidence E from its i-th neighbour, say Jill,</span>
+                <span class="c1"># denoting the number of successful trials and the total number</span>
+                <span class="c1"># of trials she observed</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">mailbox</span><span class="p">[</span><span class="s2">&quot;payoffs&quot;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="n">trials</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">mailbox</span><span class="p">[</span><span class="s2">&quot;payoffs&quot;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+                <span class="c1"># Evidence, E</span>
+                <span class="n">evidence</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">Evidence</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">trials</span><span class="p">)</span>
+
+                <span class="c1"># The difference in belief between an agent</span>
+                <span class="c1"># and its i-th neighbour</span>
+                <span class="n">delta</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">prior</span> <span class="o">-</span> <span class="n">nodes</span><span class="o">.</span><span class="n">mailbox</span><span class="p">[</span><span class="s2">&quot;beliefs&quot;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">])</span>
+
+                <span class="c1"># Compute belief that the evidence E is real, P(E)(d)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">antiupdating</span><span class="p">:</span>
+                    <span class="n">certainty</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span>
+                        <span class="mf">1.0</span>
+                        <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distancefn</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span>
+                        <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">marginal</span><span class="p">(</span><span class="n">prior</span><span class="p">,</span> <span class="n">evidence</span><span class="p">)),</span>
+                        <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">),)),</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Consider an agent u and one of its neighbours, v. As</span>
+                    <span class="c1"># beliefs between u and v diverge (delta towards 1),</span>
+                    <span class="c1"># agent u simply ignores the evidence of agent v.</span>
+                    <span class="c1">#</span>
+                    <span class="c1"># If delta becomes 1, uncertainty ~ marginal. In other</span>
+                    <span class="c1"># words, agent u&#39;s belief remains unchanged in light of</span>
+                    <span class="c1"># agent v&#39;s evidence.</span>
+                    <span class="c1">#</span>
+                    <span class="c1"># The multiplier simply determines how far apart beliefs</span>
+                    <span class="c1"># have to become before agent u begins to ignore the</span>
+                    <span class="c1"># evidence of its neighbour, v (since delta never becomes 1)</span>
+                    <span class="n">certainty</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">min</span><span class="p">(</span>
+                        <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">),)),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distancefn</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span>
+                    <span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">marginal</span><span class="p">(</span><span class="n">prior</span><span class="p">,</span> <span class="n">evidence</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Lastly, this operation uses <strong>Jeffrey’s rule</strong> to update agents beliefs</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">snippet</span> <span class="o">=</span> <span class="n">get_code</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/alexandroskoliousis/polygraphs/main/polygraphs/ops/common.py&quot;</span><span class="p">,</span> <span class="n">start_line</span> <span class="o">=</span> <span class="mi">192</span><span class="p">,</span> <span class="n">end_line</span> <span class="o">=</span> <span class="mi">196</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;```python</span><span class="se">\n</span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="se">\n</span><span class="s1">```&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>                <span class="c1"># Compute posterior belief, in light of soft uncertainty</span>
+                <span class="n">posterior</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">jeffrey</span><span class="p">(</span><span class="n">prior</span><span class="p">,</span> <span class="n">evidence</span><span class="p">,</span> <span class="n">certainty</span><span class="p">)</span>
+
+                <span class="c1"># Consider next neighbour</span>
+                <span class="n">prior</span> <span class="o">=</span> <span class="n">posterior</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><span style="font-size:18px; color:black;"> <strong>UNRELIABLE NETWORKS</strong></span></p>
+<p>Unreliable Network follow an <strong>Unreliable Op</strong> which inherits from the BalaGoyalOp and modifies some aspects of it.</p>
+<p>It modifies <span style="font-size:15x; color:purple;"><strong><strong>INIT()</strong></strong> </span> by adding a <strong>RELIABILITY</strong> parameter</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">snippet</span> <span class="o">=</span> <span class="n">get_code</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/alexandroskoliousis/polygraphs/main/polygraphs/ops/complex.py&quot;</span><span class="p">,</span> <span class="n">start_line</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">end_line</span> <span class="o">=</span> <span class="mi">44</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;```python</span><span class="se">\n</span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="se">\n</span><span class="s1">```&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="c1"># Store the reliability parameter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_network_reliability</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">reliability</span>
+
+        <span class="c1"># Configure network reliability</span>
+        <span class="c1"># Draw binary numbers from a Bernoulli distribution</span>
+        <span class="c1"># (1s denote reliable nodes)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reliability</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bernoulli</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">params</span><span class="o">.</span><span class="n">reliability</span><span class="p">)</span>
+
+        <span class="c1"># Given a list of unreliable nodes, make them unreliable</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">unreliablenodes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_reliability</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Store network reliability</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;reliability&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reliability</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_device</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>It modifies <span style="font-size:15x; color:purple;"><strong><strong>SAMPLE()</strong></strong> </span> by adding an <strong>Unreliable Sampler</strong> parameter</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">snippet</span> <span class="o">=</span> <span class="n">get_code</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/alexandroskoliousis/polygraphs/main/polygraphs/ops/complex.py&quot;</span><span class="p">,</span> <span class="n">start_line</span> <span class="o">=</span> <span class="mi">49</span><span class="p">,</span> <span class="n">end_line</span> <span class="o">=</span> <span class="mi">61</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;```python</span><span class="se">\n</span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="se">\n</span><span class="s1">```&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draws a sample from a reliable and unreliable sample</span>
+<span class="sd">        for reliable and unreliable nodes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pylint: disable=invalid-name</span>
+        <span class="c1"># Sample reliable distribution</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sampler</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+        <span class="c1"># Sample unreliable distribution</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unreliable_sampler</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+        <span class="c1"># Combine samples</span>
+        <span class="k">return</span> <span class="n">b</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reliability</span> <span class="o">+</span> <span class="n">u</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reliability</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Unreliable ops are divided 4 ways, based on wether:</p>
+<ol class="arabic">
+<li><p>The distribution from which the unreliable sampler is drawn is…:</p>
+<p>A) Binomial based on P(B) = 0.5</p>
+<p>B) Binomial based on P(B) = 0.5 - ε</p>
+</li>
+<li><p>Wether agents are fully trusting of the received evidence</p>
+<p>A) Yes. Agents are <strong>gullible</strong></p>
+<p>B) No. Agents are <strong>aligned</strong>: they trust the evidence to a level that matches reliability, e.g. if reliability = 0.75, each egent trusts the evidence 75% of the way</p>
+</li>
+</ol>
+<p><span style="font-size:15x; color:purple;"><strong><strong>Possible combinations</strong></strong> </span>:</p>
+<p>1AA =  <span style="font-size:15x; color:purple;">GullibleBinomialOp </span></p>
+<p>1AB = <span style="font-size:15x; color:purple;">AlignedBinomialOp </span></p>
+<p>1BA = <span style="font-size:15x; color:purple;">GullibleNegEpsOp </span></p>
+<p>1BB = <span style="font-size:15x; color:purple;">AlignedNegEpsOp </span></p>
+<p>Gullible operations (1AA and 1BA) only modify INIT() by specifying the content of the unreliable sampler</p>
+<p>For <strong>GullibleBinomialOP</strong>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">snippet</span> <span class="o">=</span> <span class="n">get_code</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/alexandroskoliousis/polygraphs/main/polygraphs/ops/complex.py&quot;</span><span class="p">,</span> <span class="n">start_line</span> <span class="o">=</span> <span class="mi">110</span><span class="p">,</span> <span class="n">end_line</span> <span class="o">=</span> <span class="mi">124</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;```python</span><span class="se">\n</span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="se">\n</span><span class="s1">```&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="c1"># Unreliable Binomial Sampler:</span>
+        <span class="c1"># Payoff: p = 0.5, epsilon = 0</span>
+        <span class="n">probs</span> <span class="o">=</span> <span class="n">init</span><span class="o">.</span><span class="n">halfs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">)</span>
+
+        <span class="c1"># Number of Bernoulli trials</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">init</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">)</span> <span class="o">+</span> <span class="n">params</span><span class="o">.</span><span class="n">trials</span>
+
+        <span class="c1"># Each node gets a private signal that provides information</span>
+        <span class="c1"># about whether action B is indeed a good action</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unreliable_sampler</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">binomial</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span>
+            <span class="n">total_count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="n">probs</span>
+        <span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>For <strong>GullibleNegEpsOp</strong>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">snippet</span> <span class="o">=</span> <span class="n">get_code</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/alexandroskoliousis/polygraphs/main/polygraphs/ops/complex.py&quot;</span><span class="p">,</span> <span class="n">start_line</span> <span class="o">=</span> <span class="mi">132</span><span class="p">,</span> <span class="n">end_line</span> <span class="o">=</span> <span class="mi">145</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;```python</span><span class="se">\n</span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="se">\n</span><span class="s1">```&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="c1"># Unreliable Binomial Sampler with a negative epsilon</span>
+        <span class="n">probs</span> <span class="o">=</span> <span class="n">init</span><span class="o">.</span><span class="n">halfs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">)</span> <span class="o">-</span> <span class="n">params</span><span class="o">.</span><span class="n">epsilon</span>
+
+        <span class="c1"># Number of Bernoulli trials</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">init</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">)</span> <span class="o">+</span> <span class="n">params</span><span class="o">.</span><span class="n">trials</span>
+
+        <span class="c1"># Each node gets a private signal that provides information</span>
+        <span class="c1"># about whether action B is indeed a good action</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unreliable_sampler</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">binomial</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span>
+            <span class="n">total_count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span> <span class="n">probs</span><span class="o">=</span><span class="n">probs</span>
+        <span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Aligned ops</strong> modify the reduce function (why not the apply func?) and use Jeffreys rule</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">snippet</span> <span class="o">=</span> <span class="n">get_code</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/alexandroskoliousis/polygraphs/main/polygraphs/ops/complex.py&quot;</span><span class="p">,</span> <span class="n">start_line</span> <span class="o">=</span> <span class="mi">180</span><span class="p">,</span> <span class="n">end_line</span> <span class="o">=</span> <span class="mi">219</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;```python</span><span class="se">\n</span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="se">\n</span><span class="s1">```&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">reducefn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reduce function</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">nodes</span><span class="p">):</span>
+            <span class="c1"># Log probability of successful trials</span>
+            <span class="n">logits</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;logits&quot;</span><span class="p">]</span>
+            <span class="c1"># Prior, P(H) (aka. belief)</span>
+            <span class="n">prior</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;beliefs&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Number of nodes and number of neighbours per node (incoming messages)</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">neighbours</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">mailbox</span><span class="p">[</span><span class="s2">&quot;reliability&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">neighbours</span><span class="p">):</span>
+                <span class="c1"># A node receives evidence E from its i-th neighbour, say Jill,</span>
+                <span class="c1"># denoting the number of successful trials and the total number</span>
+                <span class="c1"># of trials she observed</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">mailbox</span><span class="p">[</span><span class="s2">&quot;payoffs&quot;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="n">trials</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">mailbox</span><span class="p">[</span><span class="s2">&quot;payoffs&quot;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+                <span class="c1"># Evidence, E</span>
+                <span class="n">evidence</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">Evidence</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">trials</span><span class="p">)</span>
+
+                <span class="c1"># Get i-th neighbour reliability</span>
+                <span class="n">reliability</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">mailbox</span><span class="p">[</span><span class="s2">&quot;reliability&quot;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">]</span>
+
+                <span class="c1"># log.info(f&quot;Neighbour {i:2d}: reliability {reliability}&quot;)</span>
+
+                <span class="c1"># Compute posterior belief, in light of soft uncertainty</span>
+                <span class="c1"># (i.e., network unreliability)</span>
+                <span class="n">posterior</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">jeffrey</span><span class="p">(</span><span class="n">prior</span><span class="p">,</span> <span class="n">evidence</span><span class="p">,</span> <span class="n">reliability</span><span class="p">)</span>
+
+                <span class="c1"># Consider next neighbour</span>
+                <span class="n">prior</span> <span class="o">=</span> <span class="n">posterior</span>
+
+            <span class="c1"># Return posterior beliefs for each neighbour</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;beliefs&quot;</span><span class="p">:</span> <span class="n">posterior</span><span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">function</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<section id="run-simulations">
+<h2><span class="section-number">3.1. </span>Run simulations<a class="headerlink" href="#run-simulations" title="Link to this heading">#</a></h2>
+<p>Polygraphs allows us to run simulations on different networks with different parameters</p>
+<p><span style="font-size:17px; color:blue;"> BASIC CONFIGURATIONS</span></p>
+<p>Here is a list of some default configuration values for our simulations.</p>
+<p><span style="font-size:15px; color:purple;"><strong>op</strong></span> : ops. BalaGoyalOp, ops.UnreliableNetworkBasicGullibleBinomialOp, ops.UnreliableNetworkBasicGullibleNegativeEpsOp, ops.UnreliableNetworkBasicAlignedBinomialOp, ops.UnreliableNetworkBasicAlignedNegativeEpsOp, ops.OConnorWeatherallOp</p>
+<p><span style="font-size:15px; color:purple;"><strong>params.network.kind</strong></span> : ‘complete’, ‘star’, ‘cycle’, ‘karate’, ‘barabasialbert’, ‘wattsstrogatz’, ‘random’</p>
+<p><span style="font-size:15px; color:purple;"><strong>params.network.size</strong></span> : 16, 32, 64</p>
+<p><span style="font-size:15px; color:purple;"><strong>params.epsilon</strong></span> : 0.01, 0.001</p>
+<p><span style="font-size:15px; color:purple;"><strong>params.reliability</strong></span> : 0.75, 0.50, 0.25</p>
+<p>Additionally…</p>
+<p>If you selected <strong>BARABASIALBERT</strong> as network.kind</p>
+<p><span style="font-size:15px; color:purple;"><strong>params.network.barabasialbert.attachments</strong></span> : 1, 2, 4, 8, 16, 24, 32</p>
+<p>If you selected <strong>WATTSSTROGATZ</strong> as network.kind</p>
+<p><span style="font-size:15px; color:purple;"><strong>params.network.wattsstrogatz.knn</strong></span> : 1, 2, 4, 8, 16, 32</p>
+<p><span style="font-size:15px; color:purple;"><strong>params.network.wattsstrogatz.probability</strong></span> : 0, 0.2, 0.25, 0.4, 0.5, 0.75, 0.8, 1</p>
+<p>If you selected <strong>RANDOM</strong> as network.kind</p>
+<p><span style="font-size:15px; color:purple;"><strong>params.network.random.probability</strong></span> : 0.03, 0.06, 0.12, 0.24, 0.38, 0.51</p>
+<p>Here is 64 node random network with a rewiring probability of 0.06</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Parameters</span>
+<span class="n">num_nodes</span> <span class="o">=</span> <span class="mi">64</span>  <span class="c1"># Number of nodes in the network</span>
+<span class="n">rewire_prob</span> <span class="o">=</span> <span class="mf">0.06</span>  <span class="c1"># Probability of edge creation</span>
+
+
+<span class="c1"># Generate a random graph using the Erdős-Rényi model</span>
+<span class="n">random_network</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">erdos_renyi_graph</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">rewire_prob</span><span class="p">)</span>
+
+<span class="c1"># Draw the network</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">random_network</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">node_color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Random Network with Probability 0.06&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">random_network</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">erdos_renyi_graph</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">rewire_prob</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/9b5eb5b9c0052a8d08b5690070562398ca648e2f0a7ffad24a26f8ebbc60e96c.png" src="../../_images/9b5eb5b9c0052a8d08b5690070562398ca648e2f0a7ffad24a26f8ebbc60e96c.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#import relevant modules</span>
+<span class="kn">import</span> <span class="nn">polygraphs</span> <span class="k">as</span> <span class="nn">pg</span>
+
+<span class="kn">from</span> <span class="nn">polygraphs</span> <span class="kn">import</span> <span class="n">hyperparameters</span> <span class="k">as</span> <span class="n">hparams</span>
+<span class="kn">from</span> <span class="nn">polygraphs</span> <span class="kn">import</span> <span class="n">ops</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a PolyGraph configuration</span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">hparams</span><span class="o">.</span><span class="n">PolyGraphHyperParameters</span><span class="p">()</span>
+
+<span class="c1"># Initial beliefs are random uniform between 0 and 1</span>
+<span class="n">params</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;uniform&#39;</span>
+<span class="c1"># Chance that action B is better than action A</span>
+<span class="n">params</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="c1"># Kind and size of network (a complete network with 10 agents)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;complete&#39;</span>
+<span class="n">params</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">16</span>
+
+<span class="c1"># Enable logging; print progress every 100 steps</span>
+<span class="n">params</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">params</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">interval</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="c1"># Run 1,000 steps per simulation; repeat simulation 10 times</span>
+<span class="n">params</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">params</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">repeats</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">params</span><span class="o">.</span><span class="n">antiupdating</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">params</span><span class="o">.</span><span class="n">mistrust</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># Set seed</span>
+<span class="n">params</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="mi">123456789</span>
+
+<span class="n">pg</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">OConnorWeatherallOp</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Bye.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[MON] step 0001 Ksteps/s   0.00 A/B 0.56/0.44
+[MON] step 0099 Ksteps/s   0.16 A/B 0.00/1.00
+ INFO polygraphs&gt; Sim #0001:     99 steps    0.62s; action: B undefined: 0 converged: 1 polarized: 0 
+[MON] step 0001 Ksteps/s   0.00 A/B 0.75/0.25
+[MON] step 0100 Ksteps/s   0.17 A/B 0.00/1.00
+[MON] step 0129 Ksteps/s   0.16 A/B 0.00/1.00
+ INFO polygraphs&gt; Sim #0002:    129 steps    0.79s; action: B undefined: 0 converged: 1 polarized: 0 
+[MON] step 0001 Ksteps/s   0.00 A/B 0.44/0.56
+[MON] step 0100 Ksteps/s   0.17 A/B 0.06/0.94
+[MON] step 0154 Ksteps/s   0.16 A/B 0.00/1.00
+ INFO polygraphs&gt; Sim #0003:    154 steps    0.97s; action: B undefined: 0 converged: 1 polarized: 0 
+[MON] step 0001 Ksteps/s   0.00 A/B 0.38/0.62
+[MON] step 0100 Ksteps/s   0.17 A/B 0.06/0.94
+[MON] step 0200 Ksteps/s   0.16 A/B 0.12/0.88
+[MON] step 0233 Ksteps/s   0.16 A/B 0.00/1.00
+ INFO polygraphs&gt; Sim #0004:    233 steps    1.45s; action: B undefined: 0 converged: 1 polarized: 0 
+[MON] step 0001 Ksteps/s   0.00 A/B 0.62/0.38
+[MON] step 0100 Ksteps/s   0.32 A/B 0.62/0.38
+[MON] step 0200 Ksteps/s   0.39 A/B 0.88/0.12
+[MON] step 0300 Ksteps/s   0.44 A/B 0.88/0.12
+[MON] step 0380 Ksteps/s   0.37 A/B 0.00/1.00
+ INFO polygraphs&gt; Sim #0005:    380 steps    1.02s; action: B undefined: 0 converged: 1 polarized: 0 
+[MON] step 0001 Ksteps/s   0.00 A/B 0.75/0.25
+[MON] step 0100 Ksteps/s   0.46 A/B 0.88/0.12
+[MON] step 0200 Ksteps/s   0.32 A/B 0.31/0.69
+[MON] step 0300 Ksteps/s   0.25 A/B 0.00/1.00
+[MON] step 0339 Ksteps/s   0.22 A/B 0.00/1.00
+ INFO polygraphs&gt; Sim #0006:    339 steps    1.51s; action: B undefined: 0 converged: 1 polarized: 0 
+[MON] step 0001 Ksteps/s   0.00 A/B 0.81/0.19
+[MON] step 0100 Ksteps/s   0.19 A/B 0.06/0.94
+[MON] step 0193 Ksteps/s   0.16 A/B 0.00/1.00
+ INFO polygraphs&gt; Sim #0007:    193 steps    1.21s; action: B undefined: 0 converged: 1 polarized: 0 
+[MON] step 0001 Ksteps/s   0.00 A/B 0.31/0.69
+[MON] step 0080 Ksteps/s   0.48 A/B 1.00/0.00
+ INFO polygraphs&gt; Sim #0008:     80 steps    0.17s; action: A undefined: 0 converged: 1 polarized: 0 
+[MON] step 0001 Ksteps/s   0.00 A/B 0.50/0.50
+[MON] step 0100 Ksteps/s   0.15 A/B 0.00/1.00
+[MON] step 0147 Ksteps/s   0.15 A/B 0.00/1.00
+ INFO polygraphs&gt; Sim #0009:    147 steps    1.00s; action: B undefined: 0 converged: 1 polarized: 0 
+[MON] step 0001 Ksteps/s   0.00 A/B 0.38/0.62
+[MON] step 0053 Ksteps/s   0.16 A/B 0.00/1.00
+ INFO polygraphs&gt; Sim #0010:     53 steps    0.33s; action: B undefined: 0 converged: 1 polarized: 0 
+Bye.
+</pre></div>
+</div>
+</div>
+</div>
+<p><span style="font-size:17px; color:red;">TRY IT OUT!</p>
+<p>Now it’s your turn. Run a simulation on a network of <strong>size 32</strong> with the <strong>AlignedBinomial Op</strong>. You can select your preferred network. kind alongside the other parameters</p>
+</section>
+<section id="write-a-new-custom-operation">
+<h2><span class="section-number">3.2. </span>Write a new custom operation<a class="headerlink" href="#write-a-new-custom-operation" title="Link to this heading">#</a></h2>
+<p><span style="font-size:17px; color:red;">TRY IT OUT!</p>
+<p>How would you write a new operation? Assuming that you want to write an operation that introduces fact-checkers in the networks and influences node behavior in the following way:</p>
+<ul class="simple">
+<li><p>Nodes are divided in 3 groups: fact-checkers, misinformants, users (A) (+)</p></li>
+<li><p>If a fact-checker is part of a triangle fact-checker-misinformant-user, the edge misinformant-user is deactivated (B) (+)</p></li>
+<li><p>Agents are fully trusting (C)</p></li>
+</ul>
+<p><strong>What class would you use as base-class?</strong></p>
+<p><span style="font-size:13px; color:blue;">REMINDER: our new fact-checkers class will inherit attribute and methods form the specified base-class. The goal is having to write as less code as possible</p>
+<p>a) PolygraphsOp</p>
+<p>b) BalaGoyalOp</p>
+<p>c) UnreliableOp</p>
+<p>d) UnreliableNetworkBasicGullibleUniformOp</p>
+<p>e) UnreliableNetworkBasicGullibleNegEpsOp</p>
+<p>f) UnreliableNetworkBasicAlignedBinomialOp</p>
+<p>g) UnreliableNetworkBasicAlignedNegEpsOp</p>
+<p><strong>Where would you need to modify the code to achieve A?</strong></p>
+<p>a) init()
+b) sample()
+c) experiment()
+d) filter()
+e) apply()</p>
+<p><strong>Where would you need to modify the code to achieve B?</strong></p>
+<p>a) init()
+b) sample()
+c) experiment()
+d) filter()
+e) apply()</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">polygraphs.ops.complex</span> <span class="kn">import</span> <span class="n">UnreliableNetworkBasicGullibleBinomialOp</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FactCheckersOp</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">complex</span><span class="o">.</span><span class="n">UnreliableNetworkBasicGullibleBinomialOp</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  FactCheckers operator for moderating unreliable nodes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="c1"># Call the base class&#39;s initializer first to set up everything needed</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+        <span class="c1"># Define the group labels (Fact-checkers, Unreliable, Users)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">group_labels</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;Fact-checkers&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Unreliable&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Users&quot;</span><span class="p">}</span>
+
+        <span class="c1"># Probabilities for group assignment: Fact-checkers (2), Unreliable (3), Users (7)</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+
+        <span class="c1"># Assign nodes to groups based on probabilities</span>
+        <span class="n">group_assignments</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">multinomial</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">graph</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">(),</span> <span class="n">replacement</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Assign the group data to nodes</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">ndata</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">group_assignments</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_device</span><span class="p">)</span>
+
+        <span class="c1"># Set reliability: Fact-checkers (group 0) and Users (group 2) are reliable by default</span>
+        <span class="n">reliability</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="n">reliability</span><span class="p">[</span><span class="n">group_assignments</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Unreliable nodes (group 1) get reliability of 0</span>
+
+        <span class="c1"># Now assign the reliability to the graph</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;reliability&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reliability</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># Count the number of nodes in each group</span>
+        <span class="n">fact_checkers_count</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">group_assignments</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="n">unreliable_count</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">group_assignments</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="n">users_count</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">group_assignments</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+        <span class="c1"># Print out the counts</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of Fact-checkers: </span><span class="si">{</span><span class="n">fact_checkers_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of Unreliable nodes: </span><span class="si">{</span><span class="n">unreliable_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of Users: </span><span class="si">{</span><span class="n">users_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">filterfn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Filters out edges between Unreliable and Users when a Fact-checker is connected to the Unreliable node.&quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">edges</span><span class="p">):</span>
+            <span class="n">src_group</span> <span class="o">=</span> <span class="n">edges</span><span class="o">.</span><span class="n">src</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span>
+            <span class="n">dst_group</span> <span class="o">=</span> <span class="n">edges</span><span class="o">.</span><span class="n">dst</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span>
+
+            <span class="c1"># Fact-checkers (group 0), Unreliable (group 1), Users (group 2)</span>
+            <span class="n">fact_checker_group</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">misinformant_group</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">user_group</span> <span class="o">=</span> <span class="mi">2</span>
+
+            <span class="c1"># Determine if a fact-checker is connected to the Unreliable node (src or dst)</span>
+            <span class="n">fact_checker_connected_to_misinformant</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">src_group</span> <span class="o">==</span> <span class="n">fact_checker_group</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dst_group</span> <span class="o">==</span> <span class="n">misinformant_group</span><span class="p">))</span> <span class="o">|</span> \
+                <span class="p">((</span><span class="n">src_group</span> <span class="o">==</span> <span class="n">misinformant_group</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dst_group</span> <span class="o">==</span> <span class="n">fact_checker_group</span><span class="p">))</span>
+
+            <span class="c1"># Determine if an edge is between an Unreliable node and a User</span>
+            <span class="n">misinformant_user_edge</span> <span class="o">=</span> <span class="p">((</span><span class="n">src_group</span> <span class="o">==</span> <span class="n">misinformant_group</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dst_group</span> <span class="o">==</span> <span class="n">user_group</span><span class="p">))</span> <span class="o">|</span> \
+                                     <span class="p">((</span><span class="n">src_group</span> <span class="o">==</span> <span class="n">user_group</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dst_group</span> <span class="o">==</span> <span class="n">misinformant_group</span><span class="p">))</span>
+
+            <span class="c1"># Determine if an edge is between a User and Fact-checker</span>
+            <span class="n">fact_checker_user_edge</span> <span class="o">=</span> <span class="p">((</span><span class="n">src_group</span> <span class="o">==</span> <span class="n">fact_checker_group</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dst_group</span> <span class="o">==</span> <span class="n">user_group</span><span class="p">))</span> <span class="o">|</span> \
+                                     <span class="p">((</span><span class="n">src_group</span> <span class="o">==</span> <span class="n">user_group</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dst_group</span> <span class="o">==</span> <span class="n">fact_checker_group</span><span class="p">))</span>
+
+            <span class="c1"># Block edges between Unreliable and Users when a Fact-checker is connected to the Unreliable node</span>
+            <span class="n">block_edge</span> <span class="o">=</span> <span class="n">misinformant_user_edge</span> <span class="o">&amp;</span> <span class="n">fact_checker_connected_to_misinformant</span>
+
+            <span class="c1"># Allow all other edges</span>
+            <span class="n">allow_edge</span> <span class="o">=</span> <span class="o">~</span><span class="n">block_edge</span>
+
+            <span class="k">return</span> <span class="n">allow_edge</span>
+
+        <span class="k">return</span> <span class="n">function</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run simulations on new operation</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a PolyGraph configuration</span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">hparams</span><span class="o">.</span><span class="n">PolyGraphHyperParameters</span><span class="p">()</span>
+
+<span class="c1"># Initial beliefs are random uniform between 0 and 1</span>
+<span class="n">params</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;uniform&#39;</span>
+<span class="c1"># Chance that action B is better than action A</span>
+<span class="n">params</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="c1"># Kind and size of network (a complete network with 10 agents)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;star&#39;</span>
+<span class="n">params</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">32</span>
+
+<span class="c1"># Enable logging; print progress every 100 steps</span>
+<span class="n">params</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">params</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">interval</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">params</span><span class="o">.</span><span class="n">mistrust</span> <span class="o">=</span> <span class="mf">1.5</span>
+
+<span class="c1"># Run 1,000 steps per simulation; repeat simulation 10 times</span>
+<span class="n">params</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">params</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">repeats</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="n">pg</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+
+<span class="c1"># Run simulation</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="n">FactCheckersOp</span><span class="p">)</span> <span class="c1">#insert the new operation</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Bye.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "brianandrewball/humannetworkscience",
+            ref: "jupyter-book",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/HNS3-Network-Dynamics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../HNS2-Intro-to-Networks/HNS2-Intro-to-Networks.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>Introduction to Networks</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../HNS4-Temporal-Networks/HNS4-Temporal-Networks.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Temporal Networks</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-simulations">3.1. Run simulations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-a-new-custom-operation">3.2. Write a new custom operation</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By B. Ball
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
